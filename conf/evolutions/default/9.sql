@@ -1,0 +1,6 @@
+# --- !Ups
+
+DROP TABLE IF EXISTS "token";
+DROP TABLE IF EXISTS "USERS";
+DROP TABLE IF EXISTS credits;
+DROP TABLE IF EXISTS operations;

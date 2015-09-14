@@ -1,0 +1,10 @@
+@(mailToken: String)(implicit request: RequestHeader, lang: Lang)
+<html>
+  <body>
+    <p>Bonjour,</p>
+
+    <p>Suivez ce
+      <a href="@routes.SignUpController.finishSignUp(mailToken).absoluteURL">lien</a> pour terminer l'inscription.
+    </p>
+  </body>
+</html>

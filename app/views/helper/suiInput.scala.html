@@ -1,0 +1,19 @@
+@(elements: views.html.helper.FieldElements)
+
+<div class="field @elements.args.get('_class) @if(elements.hasErrors) {error}" id="@elements.args.get('_id).getOrElse(elements.id + "_field")">
+  @if(elements.args.get('_label)) {
+    <label for="@elements.id">@elements.label</label>
+  }
+  @if(elements.args.get('_icon)) {
+    <div class="ui icon input">
+      @elements.input
+      <i class="@elements.args.get('_icon) icon"></i>
+    </div>
+  } else {
+    @elements.input
+  }
+
+  @if( elements.hasErrors ) {
+    <div class="ui pointing red label">@elements.errors.mkString(", ")</div>
+  }
+</div>

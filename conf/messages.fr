@@ -1,0 +1,72 @@
+# Login page
+signIn.title=Login
+signIn.instructions=Connectez-vous sur l''un des réseaux suivants.
+signIn.accessDenied=Vous avez refusé l''accès à votre compte. Autorisez-le pour vous connecter.
+signIn.errorLoggingIn=Une erreur est survenue, merci de réessayer.
+signIn.useEmailAndPassword=Ou connectez-vous avec vos login et mot de passe.
+signIn.useEmailAndPasswordOnly=Connectez-vous avec vos login et mot de passe.
+signIn.signUp=Si vous n''avez pas encore de compte, inscrivez-vous.
+signIn.here=ici
+signIn.invalidCredentials=Vos identifiants sont incorrects.
+signIn.forgotPassword=Mot de passe oublié ?
+
+# Sign up page
+signUp.title=Inscription
+signUp.username=Nom d''utilisateur
+signUp.firstName=Prénom
+signUp.lastName=Nom
+signUp.email1=Adresse E-mail
+signUp.email2=Répétez votre e-mail
+signUp.password1=Mot de passe
+signUp.password2=Répétez le mot de passe
+signUp.createAccount=Créer mon compte
+signUp.cancel=Annuler
+signUp.userNameAlreadyTaken=Nom d''utilisateur déjà utilisé
+signUp.passwordsDoNotMatch=Les mots de passe saisis sont différents
+signUp.thankYouCheckEmail=Merci. Un e-mail contenant les prochaines instructions va vous être envoyé.
+signUp.invalidLink=Ce lien est invalide.
+signUp.signUpDone=Merci pour votre inscription. Vous pouvez désormais vous connecter.
+signUp.invalidPassword=Votre mot de passe doit contenir au moins {0} caractères.
+
+# Password reset
+password.title=Réinitialiser le mot de passe
+password.passwordUpdated=Votre mot de passe a bien été modifié.
+password.reset=Réinitialiser
+password.reset.unknownEmail = Aucun compte avec cet E-mail.
+password.error=Un problème est survenu lors de la modification de votre mot de passe. Veuillez réessayer.
+
+# Password change
+passwordChange.title=Modifier le mot de passe
+passwordChange.currentPassword=Ancien mot de passe
+passwordChange.newPassword1=Nouveau mot de passe
+passwordChange.newPassword2=Confirmation du mot de passe
+passwordChange.changeButton=Modifier
+passwordChange.invalidPassword=Mot de passe incorrect
+passwordChange.ok=Votre mot de passe a bien été modifié.
+passwordChange.okButton=Ok
+
+# Not authorized page
+notAuthorized.title=Non autorisé
+notAuthorized.message=Vous n''êtes pas autorisé à accéder à cette page
+
+#
+loginRequired=Vous devez être connecté pour accéder à cette page.
+
+# Mails
+#
+mails.sendAlreadyRegisteredEmail.subject=Procédure d''inscription
+mails.sendSignUpEmail.subject=Procédure d''inscription
+mails.welcomeEmail.subject=Bienvenue
+mails.passwordResetEmail.subject=Procédure de réinitialisation du mot de passe
+mails.unknownEmail.subject=Demande de réinitialisation du mot de passe
+mails.passwordResetOk.subject=Confirmation du changement de mot de passe
+
+error.real = Ceci n''est pas un nombre
+error.date = Ceci n''est pas une date
+error.number = Ceci n''est pas un nombre
+error.required = Ce champs est requis
+error.email = Ceci n''est pas un email valide
+error.minLength = La taille mini est {0}
+
+error.001 = La date {0} n''est pas correcte. Elle doit être comprise entre le {1} et le {2}.
+error.002 = Le montant saisie est supérieur au capital de {0} € restant dû.

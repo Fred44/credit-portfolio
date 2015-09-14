@@ -1,0 +1,29 @@
+# --- Created by Slick DDL
+# To stop Slick DDL generation, remove this comment and start using Evolutions
+
+# --- !Ups
+
+create table "CREDITS_2" (
+  "ID" serial primary key,
+  "USER_ID" INT NOT NULL,
+  "NOM" VARCHAR NOT NULL,
+  "CAPITAL" DECIMAL NOT NULL,
+  "TAUX" DECIMAL NOT NULL ,
+  "DUREE" INT NOT NULL,
+  "DEPART" DATE NOT NULL,
+  "CREATION" TIMESTAMP DEFAULT NOW() NOT NULL
+);
+
+create table "OPERATIONS_2" (
+  "CREDIT_ID" INT NOT NULL,
+  "TYP" VARCHAR NOT NULL,
+  "DATE" DATE NOT NULL,
+  "FRAIS" DECIMAL DEFAULT 0,
+  "VALEUR" DECIMAL NOT NULL,
+  "CREATION" TIMESTAMP DEFAULT NOW() NOT NULL
+);
+
+# --- !Downs
+
+DROP TABLE IF EXISTS "CREDITS_2";
+DROP TABLE IF EXISTS "OPERATIONS_2";

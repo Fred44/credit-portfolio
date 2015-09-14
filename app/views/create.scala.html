@@ -1,0 +1,93 @@
+@import forms.CreditForm
+@(user: models.User)(creditForm: Form[CreditForm.Data])(implicit request: play.api.mvc.RequestHeader, messages: Messages)
+
+@import helper.CSRF
+@import views.helper.Semantic.input
+
+@layout.main(title="Créer un nouveau crédit", user=Some(user)) {
+
+    <div class="credit-create">
+        <div class="ui main container">
+
+            <form class="ui form @if(creditForm.hasErrors) {error}" name="credit" action="/credit/create" method="post">
+                <h4 class="ui dividing header">Nouveau crédit</h4>
+
+                @CSRF.formField
+
+                <div class="three fields">
+                    @helper.inputText(
+                        creditForm("capital"),
+                        '_label -> "Capital",
+                        'placeholder -> "Capital",
+                        'autofocus -> "autofocus",
+                        '_class -> "required eight wide",
+                        '_icon -> "euro"
+                    )
+                    @helper.inputText(
+                        creditForm("taux"),
+                        '_label -> "Taux",
+                        'placeholder -> "Taux",
+                        '_class -> "required four wide"
+                    )
+                    @helper.inputText(
+                        creditForm("assurance"),
+                        '_label -> "Assurance",
+                        'placeholder -> "Taux",
+                        '_class -> "four wide"
+                    )
+                </div>
+
+                <div class="three fields">
+                    @helper.inputText(
+                        creditForm("depart"),
+                        '_label -> "Départ",
+                        'placeholder -> "dd.MM.yyyy",
+                        '_class -> "required six wide",
+                        '_icon -> "calendar"
+                    )
+                    @helper.inputText(
+                        creditForm("duree"),
+                        '_label -> "Durée",
+                        'placeholder -> "Durée",
+                        '_class -> "required five wide"
+                    )
+                    <div class="five wide field">
+                        <div class="field">
+                            <label for="">&nbsp;</label>
+                            @helper.select(
+                                creditForm("typeDuree"),
+                                options =
+                                        helper.options(
+                                            ("A", "Année"),
+                                            ("M", "Mois")
+                                        ),
+                                'class -> "ui dropdown"
+                            )
+                        </div>
+                    </div>
+                </div>
+
+                @helper.inputText(
+                    creditForm("nom"),
+                    '_label -> "Sauvegarder sous",
+                    'placeholder -> "Nom",
+                    '_class -> "required"
+                )
+
+                <input class="ui submit button" type="submit" value="Créer">
+                <a href="/credit/list">Retour</a>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        $('.ui.radio.checkbox')
+            .checkbox()
+        ;
+//        $('select.dropdown')
+//            .dropdown()
+//        ;
+    </script>
+
+}

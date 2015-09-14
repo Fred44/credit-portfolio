@@ -1,0 +1,152 @@
+@import scala.math.BigDecimal.RoundingMode
+@import forms.tools.CapitalForm
+@(form: Form[CapitalForm.Data], user: Option[User], result: Option[ToolsResult] = None)(implicit req: RequestHeader, messages: Messages)
+
+@import org.joda.time.DateTime
+@import helper.CSRF
+@import views.helper.Semantic.input
+
+@layout.main("Calculer le capital", user = user) {
+
+    <div id="capital-tool">
+        <div class="ui main container">
+
+            <div class="ui tabular menu">
+                <a class="item" href="/tools/mensualite">
+                    Mensualité
+                </a>
+                <a class="active item">
+                    Capital
+                </a>
+                <a class="item" href="/tools/amortissement">
+                    Amortissement
+                </a>
+            </div>
+
+            <div class="ui basic segment">
+                <div class="ui verticaly divided grid">
+
+                    <div class="two column equal height row">
+                        <div class="nine wide column">
+                            <form class="ui form" method="post">
+                                @CSRF.formField
+
+                                <div class="field">
+                                @helper.inputText(
+                                    form("apport"),
+                                    '_label -> "Apport",
+                                    'placeholder -> "Apport",
+                                    '_icon -> "euro"
+                                )
+
+                                </div>
+                                <div class="three fields">
+                                    @helper.inputText(
+                                        form("mensualite"),
+                                        '_label -> "Mensualite",
+                                        'placeholder -> "Mensualite",
+                                        'autofocus -> "autofocus",
+                                        '_class -> "required eight wide",
+                                        '_icon -> "euro"
+                                    )
+                                    @helper.inputText(
+                                        form("taux"),
+                                        '_label -> "Taux",
+                                        'placeholder -> "Taux",
+                                        '_class -> "required four wide"
+                                    )
+                                    @helper.inputText(
+                                        form("assurance"),
+                                        '_label -> "Assurance",
+                                        'placeholder -> "Taux",
+                                        '_class -> "four wide"
+                                    )
+                                </div>
+
+                                <div class="two fields">
+                                    @helper.inputText(
+                                        form("duree"),
+                                        '_label -> "Durée",
+                                        'placeholder -> "Durée",
+                                        '_class -> "required"
+                                    )
+                                    <div class="field">
+                                        <label for="">&nbsp;</label>
+                                        @helper.select(
+                                            form("typeDuree"),
+                                            options =
+                                                    helper.options(
+                                                        ("A", "Année"),
+                                                        ("M", "Mois")
+                                                    ),
+                                            'class -> "ui dropdown"
+                                        )
+                                    </div>
+                                </div>
+
+                                <button id="calc-action" type="submit" class="ui submit button">
+                                    <i class="icon calculator"></i>
+                                    Calculer
+                                </button>
+                            </form>
+                        </div>
+                        <div class="seven wide center aligned column">
+                            <div class="ui basic segment">
+                                <div class="ui small statistic">
+                                    <div class="value">
+                                    @result match {
+                                        case Some(ToolsResult(m, _)) => {
+                                            @("%,.2f".format(m)) €
+                                        }
+                                        case None => {
+                                            -
+                                        }
+                                    }
+                                    </div>
+                                    <div class="label">Capital</div>
+                                </div>
+                                <div class="ui small statistic">
+                                    <div class="value">
+                                    @result match {
+                                        case Some(ToolsResult(m, c)) => {
+                                            @("%,.2f".format(c)) €
+                                        }
+                                        case None => {
+                                            -
+                                        }
+                                    }
+                                    </div>
+                                    <div class="label">Coût</div>
+                                </div>
+                            </div>
+                            @if(result.isDefined) {
+                                <div>
+                                @if(user.isDefined) {
+                                    <a href="/credit/create?capital=@result.get.value.setScale(2, RoundingMode.DOWN)&taux=@form("taux").value&duree=@form("duree").value&typeDuree=@form("typeDuree").value&depart=@DateTime.now.toString("dd.MM.yyyy")&assurance=@form("assurance").value"
+                                    class="ui circular icon button">
+                                        <i class="save icon"></i>
+                                    </a>
+                                    <div class="ui special popup">
+                                        <p>Enregistrer dans mes crédits</p>
+                                    </div>
+                                }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+
+        $ ('.icon.button').popup({
+            inline: true
+        });
+
+    });
+  </script>
+}

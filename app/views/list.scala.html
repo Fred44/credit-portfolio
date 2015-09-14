@@ -1,0 +1,116 @@
+@(user: models.User)(credits: Seq[Amortissement], totaux: (String => BigDecimal))(implicit request: play.api.mvc.RequestHeader)
+
+@layout.main("Mes credits", user=Some(user)) {
+
+    <div class="credit-list">
+        <div class="masthead segment">
+            <div class="ui container">
+
+                <div class="ui tiny inverted statistics">
+                    <div class="statistic">
+                        <div class="value">
+                            @("%,.0f".format(totaux("capital")))
+                            <i class="euro icon"></i>
+                        </div>
+                        <div class="label">
+                            Capital
+                        </div>
+                    </div>
+                    <div class="statistic">
+                        <div class="value">
+                            @("%,.0f".format(totaux("cout")))
+                            <i class="euro icon"></i>
+                        </div>
+                        <div class="label">
+                            Coût
+                        </div>
+                    </div>
+                    <div class="statistic">
+                        <div class="value">
+                            @("%,.0f".format(totaux("du")))
+                            <i class="euro icon"></i>
+                        </div>
+                        <div class="label">
+                            Solde
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui main container">
+
+            <div class="ui three doubling stackable cards">
+
+                <div class="ui add card">
+                    <div class="content">
+                        <div class="header">Nouveau crédit</div>
+                        <div class="description center aligned">
+                            <a href="/credit/create" class="ui add circular massive icon button"><i class="icon add"></i></a>
+                            <div class="ui special popup">
+                                <div class="header">Nouveau crédit</div>
+                                <p>En cliquant sur ce bouton, vous accèderez au formulaire de création.</p>
+                                <p>Un maximum de 5 crédits est autorisé.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @for(c <- credits) {
+                    <div class="ui card">
+                        <div class="ui top attached indicating progress" data-percent="@c.progress">
+                            <div class="bar"></div>
+                        </div>
+                        <div class="content">
+                            <div class="header">@c.credit.nom</div>
+                            <div class="meta">
+                                <span class="right floated time">@c.credit.depart.toString("MM.yyyy") - @c.fin.toString("MM.yyyy")</span>
+                                @("%,.0f".format(c.credit.capital)) € à @c.credit.taux %
+                            </div>
+                            <div class="description">
+                                <div class="ui two column center aligned grid">
+                                    <div class="column">
+                                        <div class="ui tiny statistic">
+                                            <div class="value"><i class="wait icon"></i> @c.dureeEffective </div>
+                                            <div class="label">Total</div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="ui tiny statistic">
+                                            <div class="value"><i class="wait icon"></i> @c.dureeRestante() </div>
+                                            <div class="label">Reste</div>
+                                        </div>
+                                    </div>
+                                    <div class="two column row">
+                                        <div class="ui tiny statistic">
+                                            <div class="value" style="white-space: nowrap"><i class="money icon"></i> @("%,.2f".format(c.credit.capital - c.amorti())) €</div>
+                                            <div class="label">Solde</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="ui bottom attached button" href="/credit/@c.credit.id/show">
+                            <i class="unhide icon"></i>
+                            Ouvrir
+                        </a>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+    $(document).ready(function() {
+
+        $ ( '.progress' ).progress ( ) ;
+        $ ('.add.button').popup({
+            inline: true
+        });
+
+    });
+
+    </script>
+}

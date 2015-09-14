@@ -1,0 +1,10 @@
+@(user: User)(implicit request: RequestHeader, lang: Lang)
+<html>
+    <body>
+        <p>Bienvenue @user.firstName,</p>
+
+        <p>
+            Votre compte est prêt.
+            Cliquez <a href="@routes.ApplicationController.signIn">ici</a> pour vous connecter.</p>
+    </body>
+</html>

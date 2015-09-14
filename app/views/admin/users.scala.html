@@ -1,0 +1,50 @@
+@(user: models.User)(users: Seq[(models.User, Int)])(implicit request: play.api.mvc.RequestHeader)
+
+@layout.main("Utilisateurs", user = Some(user)) {
+
+  <div id="users-admin">
+    <div class="masthead segment">
+      <div class="ui stackable grid container">
+
+        <div class="column large screen only">
+          <i class="large inverted users icon"></i>
+        </div>
+
+        <div class="eight wide column">
+          <h1 class="ui huge inverted header">
+            <div class="content">
+              @users.size utilisateur@if(users.size>1){s}
+            </div>
+          </h1>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ui main container">
+
+      <div class="ui cards">
+        @users.map { case (u, c) =>
+          <div class="ui card">
+            <div class="content">
+              <img src="@u.avatarURL" class="right floated mini ui image"/>
+              <div class="header">
+                @u.fullName
+              </div>
+              <div class="meta">
+                <span class="date">Créé le @u.creationDate.toString("dd MMM yyyy")</span>
+              </div>
+            </div>
+            <div class="extra content">
+              <i class="money icon"></i>
+              <span>@c crédit@if(c>1){s} </span>
+              <a title="Supprimer ce compte"><i class="right floated trash icon"></i></a>
+              <a href="mailto:@u.email" title="@u.email"><i class="right floated mail icon"></i></a>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+}

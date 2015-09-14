@@ -1,0 +1,149 @@
+@(user: User, c: Credit, editForm: Form[MensualiteOperation], res: Option[(Stats, Stats)])(implicit request: play.api.mvc.RequestHeader, messages: Messages)
+
+@import helper.CSRF
+@import views.helper.Semantic.input
+
+@layout.main(title=c.nom, user=Some(user)) {
+
+    <div id="operation-mensualite">
+        <div class="masthead segment">
+            <div class="ui stackable grid container">
+
+                <div class="thirteen wide column">
+                    <h1 class="ui huge inverted header">
+                        <div class="content">
+                            @c.nom
+                            <a id="editBtn" href="/credit/@c.id/edit"><i class="small inverted edit icon"></i></a>
+                            <div class="sub header">
+                                @("%,.2f".format(c.capital)) €
+                            </div>
+                        </div>
+                    </h1>
+                </div>
+
+                <div class="three wide right aligned column">
+                    <a class="ui circular icon large button" href="/credit/@c.id/show"><i class="left chevron icon"></i></a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui main container">
+
+            <form class="ui form @if(editForm.hasErrors) {error}" method="post">
+                <h4 class="ui dividing header">Changer la mensualité</h4>
+
+                @CSRF.formField
+
+                <div class="ui grid">
+                    <div class="nine wide column">
+                        @helper.inputText(
+                            editForm("date"),
+                            '_label -> "Date",
+                            'placeholder -> "MM.yyyy",
+                            '_class -> "required",
+                            '_icon -> "calendar",
+                            'autofocus -> "autofocus"
+                        )
+
+                        <div class="two fields">
+                            @helper.inputText(
+                                editForm("mensualite"),
+                                '_label -> "Mensualité",
+                                'placholder -> "Montant",
+                                '_icon -> "euro",
+                                '_class -> "required"
+                            )
+                            @helper.inputText(
+                                editForm("frais"),
+                                '_label -> "Frais",
+                                'placholder -> "Montant",
+                                '_icon -> "euro"
+                            )
+                        </div>
+
+                        <button id="calc-action" type="submit" class="ui submit button">
+                            <i class="icon calculator"></i>
+                            Calculer
+                        </button>
+                    </div>
+
+                    <div class="seven wide column">
+                        <div class="ui info message">
+                            <div class="content">
+                                <div class="header">Caculer l'impact du changement de la mensualité sur votre crédit.</div>
+                                <ol class="list">
+                                    <li>Sélectionner l'échéance à partir de laquelle s'applique l'opération</li>
+                                    <li>Saisir la nouvelle mensualité avec les éventuels frais</li>
+                                    <li>Cliquer sur Calculer pour obtenir le résultat</li>
+                                </ol>
+                                Le tableau résultat présente le gain en terme de durée et de coût réalisé. Vous pouvez à votre guise modifier les données et recalculer le résultat.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @res match {
+                    case Some ((avant, apres)) => {
+                        <h4 class="ui horizontal header divider">Résultat de l'opération</h4>
+
+                        <table class="ui definition table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Avant</th>
+                                    <th>Après</th>
+                                    <th>Gain</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Echéances</td>
+                                    <td>@avant.duree</td>
+                                    <td>@apres.duree</td>
+                                    <td>@(avant.duree - apres.duree)</td>
+                                </tr>
+                                <tr>
+                                    <td>Durée (années)</td>
+                                    <td>@("%.1f".format(avant.duree.toFloat/12))</td>
+                                    <td>@("%.1f".format(apres.duree.toFloat/12))</td>
+                                    <td>@("%.1f".format(avant.duree.toFloat/12 - apres.duree.toFloat/12))</td>
+                                </tr>
+                                <tr>
+                                    <td>Fin</td>
+                                    <td>@avant.fin.toString("MM.yyyy")</td>
+                                    <td>@apres.fin.toString("MM.yyyy")</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>Coût</td>
+                                    <td>@("%,.2f".format(avant.cout)) €</td>
+                                    <td>@("%,.2f".format(apres.cout)) €</td>
+                                    <td>@("%,.2f".format(avant.cout - apres.cout)) €</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <button id="save-action" class="ui submit button">
+                            <i class="icon save"></i>
+                            Enregistrer
+                        </button>
+
+                        <script>
+                    $(document).ready(function() {
+                       $('#save-action' ).click(function () {
+                           this.form.action = '?save=true';
+                       });
+                        $('#calc-action' ).click(function () {
+                            this.form.action = '?save=false';
+                        });
+                    });
+                </script>
+                    }
+                    case None => {}
+                }
+            </form>
+
+        </div>
+    </div>
+}

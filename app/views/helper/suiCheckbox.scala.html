@@ -1,0 +1,13 @@
+@(elements: views.html.helper.FieldElements)
+
+<div class="field @elements.args.get('_class) @if(elements.hasErrors) {error}">
+    <div class="ui checkbox">
+        @elements.input
+        @if(elements.args.get('_label)) {
+            <label for="@elements.id">@elements.label</label>
+        }
+    </div>
+    @if( elements.hasErrors ) {
+        <div class="ui pointing red label">@elements.errors.mkString(", ")</div>
+    }
+</div>

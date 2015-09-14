@@ -1,0 +1,51 @@
+@(form: Form[String])(implicit request: play.api.mvc.RequestHeader, messages: Messages)
+@import helper.CSRF
+@import views.helper.Semantic.input
+
+@layout.secure(Messages("signUp.title")) {
+
+    <div class="ui two steps attached">
+        <div class="active step">
+            <i class="mail icon"></i>
+            <div class="content">
+                <div class="title">Vérifier</div>
+                <div class="description">votre E-mail</div>
+            </div>
+        </div>
+        <div class="disabled step">
+            <i class="checkmark icon"></i>
+            <div class="content">
+                <div class="title">Valider</div>
+                <div class="description">la création</div>
+            </div>
+        </div>
+    </div>
+    @request.flash.get("error").map { msg =>
+        <div class="ui icon error message attached">
+            <i class="warning icon"></i>
+            <div class="content">
+                <div class="header"> @Messages(msg) </div>
+            </div>
+        </div>
+    }
+    <div class="ui attached segment">
+        <form class="ui signup large form"
+        method="post" autocomplete="off">
+
+            <p>Veuillez saisir votre adresse e-mail. Vous allez ensuite recevoir le lien pour terminer la création de votre compte.</p>
+
+            @CSRF.formField
+
+            @helper.inputText(
+                form("email"),
+                'placeholder -> Messages("signUp.email1"),
+                'autofocus -> "autofocus",
+                '_class -> "required",
+                '_icon -> "mail"
+            )
+
+            <button type="submit" class="ui submit button">@Messages("signUp.createAccount")</button>
+            <a href="@request.headers.get("referer").getOrElse("/")">@Messages("signUp.cancel")</a>
+        </form>
+    </div>
+}

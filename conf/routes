@@ -1,0 +1,57 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET         /                                controllers.ApplicationController.index
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                    controllers.Assets.at(path="/public", file)
+
+GET         /signin                          controllers.ApplicationController.signIn
+POST        /authenticate/credentials        controllers.CredentialsAuthController.authenticate
+
+GET         /signup                          controllers.ApplicationController.startSignUp
+POST        /signup                          controllers.SignUpController.handleStartSignUp
+GET         /signup/:token                   controllers.SignUpController.finishSignUp(token: String)
+POST        /signup/:token                   controllers.SignUpController.handleFinishSignUp(token: String)
+
+GET         /signout                         controllers.ApplicationController.signOut
+
+GET         /reset                           controllers.PasswordController.startResetPassword
+POST        /reset                           controllers.PasswordController.handleStartResetPassword
+GET         /reset/:mailToken                controllers.PasswordController.resetPassword(mailToken: String)
+POST        /reset/:mailToken                controllers.PasswordController.handleResetPassword(mailToken: String)
+
+GET         /password                        controllers.PasswordController.startChangePassword
+POST        /password                        controllers.PasswordController.handleChangePassword
+
+GET         /about                           controllers.ApplicationController.about
+GET         /robots.txt                      controllers.Assets.at(path="/public", file="robots.txt")
+GET         /sitemap.xml                     controllers.Assets.at(path="/public", file="sitemap.xml")
+
+GET         /user                            controllers.UserProfileController.show
+
+GET         /tools/mensualite                controllers.ToolsController.showMensualite
+POST        /tools/mensualite                controllers.ToolsController.submitMensualite
+GET         /tools/capital                   controllers.ToolsController.showCapital
+POST        /tools/capital                   controllers.ToolsController.submitCapital
+GET         /tools/amortissement             controllers.ToolsController.showAmortissement
+POST        /tools/amortissement             controllers.ToolsController.submitAmortissement
+
+GET         /credit/list                     controllers.MesCreditsController.all
+GET         /credit/create                   controllers.MesCreditsController.startCreate
+POST        /credit/create                   controllers.MesCreditsController.handleCreate
+GET         /credit/:id/show                 controllers.MesCreditsController.show(id: Long, typ: String ?= "an")
+GET         /credit/:id/edit                 controllers.MesCreditsController.startEdit(id: Long)
+POST        /credit/:id/edit                 controllers.MesCreditsController.handleEdit(id: Long)
+GET         /credit/:id/mensualite           controllers.OperationController.startMensualiteOperation(id: Long)
+POST        /credit/:id/mensualite           controllers.OperationController.handleMensualiteOperation(id: Long, save: Boolean ?= false)
+GET         /credit/:id/rembourser           controllers.OperationController.startRembourserOperation(id: Long)
+POST        /credit/:id/rembourser           controllers.OperationController.handleRembourserOperation(id: Long, save: Boolean ?= false)
+GET         /credit/:id/taux                 controllers.OperationController.startTauxOperation(id: Long)
+POST        /credit/:id/taux                 controllers.OperationController.handleTauxOperation(id: Long, save: Boolean ?= false)
+GET         /credit/:id/operations/remove    controllers.OperationController.handleRemove(id: Long, date: String, typ: String)
+GET         /credit/:id/remove               controllers.MesCreditsController.handleRemove(id: Long)
+
+GET         /admin/users                     controllers.AdminController.users

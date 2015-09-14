@@ -1,0 +1,195 @@
+/* Registration layout */
+.secure-layout {
+    background-color: #444;
+    background: -webkit-linear-gradient(#555, #000);
+    background: -o-linear-gradient(#555, #000);
+    background: -moz-linear-gradient(#555, #000);
+    background: radial-gradient(#555, #000);
+}
+.secure-layout .column {
+    max-width: 480px;
+}
+.secure-layout > .grid {
+    height: 100%;
+    visibility: hidden;
+}
+.secure-layout .ui.attached.steps {
+    margin: 0 0 -1px -2px !important;
+}
+
+/* Main layout */
+.main-layout>.pusher {
+    display: -webkit-flex;
+    layout: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+.main.container {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    min-height: 480px;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+.ui.top.main.menu .header.item {
+    padding: 0em;
+}
+.ui.top.main.menu .toc.item {
+    display: none;
+}
+.ui.top.main.menu .item {
+    font-size: 1.1rem;
+    padding-bottom: 0.95rem;
+}
+.ui.top.main.menu .active.item {
+    /*box-shadow: 0px -3px 0px #00b5ad !important;*/
+    border-bottom: 0.4em solid;
+    background: none;
+    padding: 0.78571em 0.95em 0.49em;
+}
+@media only screen and (max-width: 700px) {
+    .ui.top.main.menu .item,
+    .ui.top.main.menu .menu {
+        display: none;
+    }
+    .ui.top.main.menu .toc.item,
+    .ui.top.main.menu .header.item {
+        display: block;
+    }
+}
+.ui.brand.image {
+    width: 5em;
+}
+.footer.segment {
+    padding : 5em 0em;
+}
+
+/* Homepage */
+.homepage .masthead.background {
+    background: url(/assets/images/euro-billets-de-banque.jpg) no-repeat center top fixed;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+.homepage .secondary.pointing.menu .toc.item {
+    display: none;
+}
+.homepage .masthead.segment {
+    min-height: 700px;
+    padding: 1em 0em;
+    background-color: rgba(0,0,0,0.8) !important;
+}
+.homepage .masthead .logo.item img {
+    margin-right: 1em;
+}
+.homepage .masthead .ui.menu .ui.button {
+    margin-left: 0.5em;
+}
+.homepage .masthead h1.ui.header {
+    margin-top: 2em;
+    margin-bottom: 0em;
+    font-size: 4em;
+    font-weight: normal;
+}
+.homepage .masthead h2 {
+    font-size: 1.7em;
+    font-weight: normal;
+}
+.homepage .ui.vertical.stripe {
+    padding: 8em 0em;
+}
+.homepage .ui.vertical.stripe h3 {
+    font-size: 2em;
+}
+.homepage .ui.vertical.stripe .button + h3,
+.homepage .ui.vertical.stripe p + h3 {
+    margin-top: 3em;
+}
+.homepage .ui.vertical.stripe .floated.image {
+    clear: both;
+}
+.homepage .ui.vertical.stripe p {
+    font-size: 1.33em;
+}
+.homepage .ui.vertical.stripe .horizontal.divider {
+    margin: 3em 0em;
+}
+.homepage .quote.stripe.segment .grid .column {
+    padding-top: 5em;
+    padding-bottom: 5em;
+}
+@media only screen and (max-width: 700px) {
+    .homepage .secondary.pointing.menu .item,
+    .homepage .secondary.pointing.menu .menu {
+        display: none;
+    }
+    .homepage .secondary.pointing.menu .toc.item {
+        display: block;
+    }
+    .homepage .masthead.segment {
+        min-height: 350px;
+    }
+    .homepage .masthead h1.ui.header {
+        font-size: 2em;
+        margin-top: 1.5em;
+    }
+    .homepage .masthead h2 {
+        margin-top: 0.5em;
+        font-size: 1.5em;
+    }
+}
+
+/* Tools pages */
+#mensualite-tool,
+#capital-tool,
+#ammortissement-tool {
+    margin-top: 4.5em;
+}
+#mensualite-tool .ui.statistic,
+#capital-tool .ui.statistic,
+#ammortissement-tool .ui.statistic {
+    max-width: none;
+}
+
+/* Credits list page */
+.credit-list .ui.cards .add.card {
+    border: dashed #999;
+    background-color: #e0e0e0;
+}
+.credit-list .ui.cards .add.card a {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+.credit-list .ui.special.popup p {
+    text-align: left;
+}
+.credit-list .masthead .statistic {
+    margin-bottom: 0;
+}
+/*.credit-stats .tab-label {*/
+    /*display: none;*/
+/*}*/
+
+.credit-stats .grid > .column:first-child {
+    padding-right: 0;
+}
+
+/* commons */
+.masthead.segment {
+    padding-top: 5.2em;
+    padding-bottom: 2em;
+    background-color: #00b5ad;
+    background: -webkit-linear-gradient(#1b1c1d 30%, #00b5ad); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#1b1c1d 30%, #00b5ad); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#1b1c1d 30%, #00b5ad); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#1b1c1d 30%, #00b5ad); /* Standard syntax */
+}
+.masthead.segment #editBtn {
+    margin-left: 2em;
+}
+.ui.attached.message {
+    margin-right: 1px !important;
+}
+.hidden.menu {
+    display: none;
+}

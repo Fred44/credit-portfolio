@@ -1,0 +1,206 @@
+@(user: Option[models.User])(implicit req: RequestHeader)
+
+@layout.page("credit-portfolio") {
+<body id="top" class="homepage">
+    <!-- Following menu -->
+    <div class="ui top fixed inverted main menu transition hidden">
+        <div class="ui container">
+            <a class="toc item">
+                <i class="large sidebar icon"></i>
+            </a>
+            <a class="header item" href="/"><img class="ui brand image" src="/assets/images/landing/title3.png"></a>
+            @user.map { u =>
+                @if(u.isAdmin) {
+                    <a class="item" href="/admin/users"> Administration </a>
+                }
+                <a class="item" href="/credit/list"> Mes crédits </a>
+            }
+            <a class="item" href="/tools/mensualite"> Calculer </a>
+
+            <div class="right menu">
+            @user match {
+                case Some(u) => {
+                    <a class="item" href="/user">
+                        @u.firstName @u.lastName
+                    </a>
+                }
+                case None => {
+                    <a href="/signin" class="item">Connecter</a>
+                    <a href="/signup" class="item">S'enregistrer</a>
+                }
+            }
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <div class="ui vertical inverted sidebar menu left">
+        <a class="header item" href="/"><img class="ui brand image" src="/assets/images/landing/title3.png"></a>
+        @user match {
+            case Some(u) => {
+                @if(user.get.isAdmin) {
+                    <a class="item" href="/admin/users"> Administration </a>
+                }
+                <a class="item" href="/credit/list"> Mes crédits </a>
+                <a class="item" href="/user"> Mon profil </a>
+                <a class="item" href="/signout">Se déconnecter</a>
+            }
+            case None => {
+                <a class="item" href="/signin">Se connecter</a>
+                <a class="item" href="/signup">S'enregistrer</a>
+            }
+        }
+    </div>
+
+    <!-- Page Contents -->
+    <div class="pusher">
+        <div class="masthead background">
+            <div class="ui inverted vertical masthead center aligned segment">
+                <div class="ui container">
+                    <div class="ui large secondary inverted pointing menu">
+                        <a class="toc item">
+                            <i class="large sidebar icon"></i>
+                        </a>
+                        <a class="active item">Accueil</a>
+                        @user match {
+                            case Some(u) => {
+                                @if(user.get.isAdmin) {
+                                    <a class="item" href="/admin/users"> Administration </a>
+                                }
+                                <a class="item" href="/credit/list"> Mes crédits </a>
+                                <a class="item" href="/user"> Mon profil </a>
+                                <div class="right item">
+                                    <a class="ui inverted button" href="/signout">Se déconnecter</a>
+                                </div>
+                            }
+                            case None => {
+                                <div class="right item">
+                                    <a class="ui inverted button" href="/signin">Se connecter</a>
+                                    <a class="ui inverted button" href="/signup">S'enregistrer</a>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="ui text container">
+                    <h1 class="ui inverted header">
+                        <img src="/assets/images/landing/title3.png" style="zoom: 1.6">
+                    </h1>
+                    <h2>Gérer votre portefeuille de crédit</h2>
+                    <a class="ui huge teal button" href="/tools/mensualite">Commencer <i class="right arrow icon"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div id="list" class="ui vertical stripe segment">
+            <div class="ui middle aligned stackable grid container">
+                <div class="row">
+                    <div class="eight wide column">
+                        <h3 class="ui header">Suivez tous vos crédits</h3>
+                        <p>
+                            Avec le tableau de bord, il est facile de suivre l'intégralité de vos crédits. Chaque fiche,
+                            rassemble les informations essentielles comme le capital, la durée et les dates clés.
+                        </p>
+                        <p>
+                            Créez votre compte et commencez à saisir un ou plusieurs crédits.
+                        </p>
+                    </div>
+                    <div class="seven wide right floated column">
+                        <img src="assets/images/landing/screen1.png" class="ui large image">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="lens" class="ui vertical stripe segment">
+            <div class="ui middle aligned stackable grid container">
+                <div class="row">
+                    <div class="seven wide column">
+                        <img src="assets/images/landing/screen2.png" alt="Détails du crédit" class="ui large image"/>
+                    </div>
+                    <div class="eight wide column">
+                        <h3 class="ui header">Zoomez sur un crédit</h3>
+                        <p>
+                            Pour en savoir plus, zoomez sur le crédit. Toutes les données essentielles défilent en cliquant
+                            sur le titre correspondant. Sur la capture de gauche, on peut voir les chiffres clés de la dernière
+                            échéance.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="eight wide column">
+                        <p>
+                            Les outils classiques de la gestion de crédit sont aussi présents. Le tableau d'amortissement
+                            peut être calculé par année ou par mois.
+                        </p>
+                        <p>
+                            Le tableau d'amortissement est très utile pour ce projeter
+                            dans le futur. Exemple, quel sera mon restant dû dans 1 ou 2 ans ? Facile il suffit de croiser
+                            l'année avec la colonne Capital.
+                        </p>
+                    </div>
+                    <div class="seven wide right floated column">
+                        <img src="assets/images/landing/screen3.png" alt="Ammortissement" class="ui large image"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tools" class="ui vertical stripe segment">
+            <div class="ui middle aligned stackable grid container">
+                <div class="row">
+                    <div class="eight wide column">
+                        <h3 class="ui header">Des outils de simulation</h3>
+                        <h4>Mensualité, taux, remboursement, testez différents paramètres</h4>
+                        <p>
+                            Les outils de simulation sont le vrai plus de ce site. Une fois le crédit enregistré, il est
+                            possible de mesurer l'impact d'un remboursement, d'un changement de mensualité ou de taux.
+                            En plus de mesurer le gain, il est possible d'enregistrer ces opérations.
+                            On peut ainsi simuler plusieurs opérations sur la durée du crédit.
+                        </p>
+                    </div>
+                    <div class="seven wide right floated column">
+                        <img src="assets/images/landing/screen4.png" alt="Simulation" class="ui large image"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui inverted vertical footer segment">
+            <div class="ui container">
+                <div class="ui stackable inverted divided equal height stackable grid">
+                    <div class="eight wide column">
+                        <h3 class="ui inverted header">credit-portfolio.fr</h3>
+                        <div class="ui inverted link list">
+                            <a href="/about" class="item">A propos</a>
+                            <a href="mailto:admin@@credit-portfolio.fr" class="item">Contactez le responsable du site</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+          // fix menu when passed
+          $('.masthead')
+            .visibility({
+              once: false,
+              onBottomPassed: function() {
+                $('.fixed.main.menu').transition('fade in');
+              },
+              onBottomPassedReverse: function() {
+                $('.fixed.main.menu').transition('fade out');
+              }
+            });
+
+          // create sidebar and attach to menu open
+          $('.ui.sidebar')
+            .sidebar('attach events', '.toc.item')
+          ;
+        });
+    </script>
+</body>
+}

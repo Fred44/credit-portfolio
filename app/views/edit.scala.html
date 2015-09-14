@@ -1,0 +1,111 @@
+@import forms.CreditForm
+@(user: User, c: Credit, creditForm: Form[CreditForm.Data])(implicit request: play.api.mvc.RequestHeader, messages: Messages)
+
+@import helper.CSRF
+@import views.helper.Semantic.input
+
+@layout.main(title="Editer", user=Some(user)) {
+
+    <div id="credit-edit">
+        <div class="masthead segment">
+            <div class="ui stackable grid container">
+
+                <div class="thirteen wide column">
+                    <h1 class="ui huge inverted header">
+                        <div class="content">
+                            @c.nom
+                            <div class="sub header">
+                                @("%,.2f".format(c.capital)) €
+                            </div>
+                        </div>
+                    </h1>
+                </div>
+                <div class="three wide right aligned column">
+                    <a class="ui circular icon large button" href="/credit/@c.id/show"><i class="left chevron icon"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui main container">
+
+            <form class="ui form @if(creditForm.hasErrors) {error}" name="credit" action="" method="post">
+                <h4 class="ui dividing header">Modifier le crédit</h4>
+
+                @CSRF.formField
+
+                <div class="three fields">
+                    @helper.inputText(
+                        creditForm("capital"),
+                        '_label -> "Capital",
+                        'placeholder -> "Capital",
+                        'autofocus -> "autofocus",
+                        '_class -> "required eight wide",
+                        '_icon -> "euro"
+                    )
+                    @helper.inputText(
+                        creditForm("taux"),
+                        '_label -> "Taux",
+                        'placeholder -> "Taux",
+                        '_class -> "four wide"
+                    )
+                    @helper.inputText(
+                        creditForm("assurance"),
+                        '_label -> "Assurance",
+                        'placeholder -> "Taux",
+                        '_class -> "four wide"
+                    )
+                </div>
+
+                <div class="three fields">
+                    @helper.inputText(
+                        creditForm("depart"),
+                        '_label -> "Départ",
+                        'placeholder -> "dd.MM.yyyy",
+                        '_class -> "required six wide",
+                        '_icon -> "calendar"
+                    )
+                    @helper.inputText(
+                        creditForm("duree"),
+                        '_label -> "Durée",
+                        'placeholder -> "Durée",
+                        '_class -> "required five wide"
+                    )
+                    <div class="five wide field">
+                        <div class="field">
+                            <label for="">&nbsp;</label>
+                            @helper.select(
+                                creditForm("typeDuree"),
+                                options =
+                                        helper.options(
+                                            ("A", "Année"),
+                                            ("M", "Mois")
+                                        ),
+                                'class -> "ui dropdown"
+                            )
+                        </div>
+                    </div>
+                </div>
+
+                @helper.inputText(
+                    creditForm("nom"),
+                    '_label -> "Nom",
+                    'placeholder -> "Nom",
+                    '_class -> "required"
+                )
+
+                <input class="ui submit button" type="submit" value="Modifier">
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        $('.ui.radio.checkbox')
+            .checkbox()
+        ;
+//        $('select.dropdown')
+//            .dropdown()
+//        ;
+    </script>
+
+}

@@ -1,0 +1,188 @@
+@(user: User, c: Credit, stats: CreditStats, ops: Seq[Operation], echeances: Seq[Echeance],typ: String)(implicit request: play.api.mvc.RequestHeader)
+@import org.joda.time.DateTime
+
+@menu = {
+    <div class="item">
+        <div class="header">Options</div>
+        <div class="menu">
+            <div class="item">
+                <div id="sumTableCheckbox" class="ui toggle teal checkbox">
+                    <input type="checkbox" @if(typ == "an") {checked}>
+                    <label class="inverted">Tableau synthétique</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <div class="header">Opérations</div>
+        <div class="menu">
+            <a class="item" href="/credit/@c.id/rembourser"><i class="icon"></i> Remboursement</a>
+            <a class="item" href="/credit/@c.id/mensualite"><i class="icon"></i> Mensualité</a>
+            <a class="item" href="/credit/@c.id/taux"><i class="icon"></i> Taux</a>
+        </div>
+    </div>
+    <div class="item">
+        <div class="header">Crédit</div>
+        <div class="menu">
+            <a id="del-action" class="item"><i class="trash icon"></i> Supprimer</a>
+        </div>
+    </div>
+}
+
+@layout.main(title = c.nom, user = Some(user), contextSideMenu = menu) {
+
+    <div id="credit-show">
+        <div class="masthead segment">
+            <div class="ui stackable grid container">
+
+                <div class="thirteen wide column">
+                    <h1 class="ui huge inverted header">
+                        <div class="content">
+                            @c.nom
+                            <a id="editBtn" href="/credit/@c.id/edit"><i class="small inverted edit icon"></i></a>
+                            <div class="sub header">
+                                @("%,.2f".format(c.capital)) €
+                            </div>
+                        </div>
+                    </h1>
+                </div>
+
+                <div class="three wide right aligned column">
+                    <a class="ui circular icon large button" data-transition="overlay" href="/credit/list">
+                        <i class="left chevron icon"></i>
+                    </a>
+                    &nbsp;&nbsp;
+                    <div class="ui circular icon large button" id="credit-menu-btn">
+                        <i class="ellipsis vertical icon"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <div class="ui main container">
+
+                <div class="ui grid">
+
+                    <!--
+                    Stats
+                    -->
+                    <div class="sixteen wide column">
+                        @views.html.creditStats(stats)
+                    </div>
+
+                    @if(ops != Nil) {
+                        <div class="sixteen wide column">
+                            <h4 class="ui horizontal header divider">
+                                Opérations
+                            </h4>
+                        </div>
+                        <div class="sixteen wide column">
+                        @views.html.operations(c.id.get, ops)
+                        </div>
+                    }
+
+                    <div class="sixteen wide column">
+                        <h4 class="ui horizontal header divider">
+                            <i class="table icon"></i>
+                            Amortissement @if(typ == "an") {synthétique}
+                        </h4>
+                    </div>
+
+                    <div class="sixteen wide column">
+                        <table class="ui compact striped table">
+                            <thead>
+                                <tr>
+                                    <th>Num</th>
+                                    <th>@if(typ == "an") {Année} else {Mois}</th>
+                                    <th class="right aligned">Versements</th>
+                                    <th class="right aligned">Intérêts</th>
+                                    <th class="right aligned">Amortissement</th>
+                                    <th class="right aligned">Assurance</th>
+                                    <th class="right aligned">Capital</th>
+                                    <th class="right aligned">Taux</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @for(e <- echeances) {
+                                <tr @if(e.date.year == DateTime.now.year && (typ == "an" || e.date.monthOfYear == DateTime.now.monthOfYear)) {class="active"}>
+                                    <td>@e.num</td>
+                                    <td>@if(typ == "an") {@e.date.toString("yyyy")} else {@e.date.toString("MM.yyyy")}</td>
+                                    <td class="right aligned">@("%,.2f".format(e.mensualite))</td>
+                                    <td class="right aligned">@("%,.2f".format(e.interets))</td>
+                                    <td class="right aligned">@("%,.2f".format(e.amortissement))</td>
+                                    <td class="right aligned">@("%,.2f".format(e.assurance))</td>
+                                    <td class="right aligned">@("%,.2f".format(e.capital))</td>
+                                    <td class="right aligned">@("%,.2f".format(e.taux))</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sixteen wide column right aligned">
+                        <a href="#top" class="circular ui icon button"><i class="level up icon"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui basic del modal">
+            <div class="header">
+                Supprimer
+            </div>
+            <div class="image content">
+                <div class="image">
+                    <i class="trash icon"></i>
+                </div>
+                <div class="description">
+                    <p>Vous êtes sur le point de supprimer le crédit "@c.nom". Cette opération est irréversible.</p>
+                    <p>Etes vous sur de continuer ?</p>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="two fluid ui inverted buttons">
+                    <div class="ui red basic inverted cancel button">
+                        <i class="remove icon"></i>
+                        Non
+                    </div>
+                    <a class="ui green basic inverted button" href="/credit/@c.id/remove">
+                        <i class="checkmark icon"></i>
+                        Oui
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    $(document).ready(function() {
+        $ ('.pointing.menu .item').tab();
+
+//        $('.ui.dropdown').dropdown();
+
+        $('.basic.del.modal')
+            .modal('setting', 'closable', true)
+            .modal('attach events', '#del-action', 'show');
+        });
+        $('.ui.right.sidebar.menu')
+//          .sidebar({
+//            dimPage: false,
+//            context: $('.wrapper')
+//          })
+          .sidebar('attach events', '#credit-menu-btn')
+        ;
+        $('#sumTableCheckbox')
+            .checkbox({
+                onChecked: function() {
+                  console.log('onChange called<br>');
+                  window.location.href = '?typ=an'
+                },
+                onUnchecked: function() {
+                    window.location.href = '?typ=mois'
+                }
+            });
+
+    </script>
+}

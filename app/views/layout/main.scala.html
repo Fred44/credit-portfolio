@@ -1,0 +1,140 @@
+@(title: String, style: Html = Html(""), user: Option[models.User] = None, contextSideMenu: Html = Html(""))(content: Html)(implicit request: play.api.mvc.RequestHeader)
+
+@layout.page(title, style) {
+<body id="top" class="main-layout">
+    <!-- Sidebar Menu -->
+    <div class="ui vertical inverted sidebar menu left">
+        <a class="header item" href="/"><img class="ui brand image" src="/assets/images/landing/title3.png"></a>
+        @user match {
+            case Some(u) => {
+                @if(u.isAdmin) {
+                    <a class="@if(request.uri startsWith  "/admin/") {active} item" href="/admin/users"> Administration </a>
+                }
+                <a class="@if(request.uri startsWith  "/credit/") {active} item" href="/credit/list"> Mes crédits </a>
+                <a class="@if(request.uri startsWith "/tools/") {active} item" href="/tools/mensualite"> Calculer </a>
+                <a class="@if(request.uri startsWith "/user") {active} item" href="/user"> Mon profil </a>
+                <a class="item" href="/signout">Se déconnecter</a>
+            }
+            case None => {
+                <a class="@if(request.uri startsWith "/tools/") {active} item" href="/tools/mensualite"> Calculer </a>
+                <a class="item" href="/signin">Se connecter</a>
+                <a class="item" href="/signup">S'enregistrer</a>
+            }
+        }
+    </div>
+
+        <!-- right sidebar -->
+    <div class="ui right vertical sidebar menu">
+        @contextSideMenu
+    </div>
+
+    <div class="ui top fixed inverted main menu">
+        <div class="ui container">
+            <a class="toc item">
+                <i class="large sidebar icon"></i>
+            </a>
+            <a class="header item" href="/"><img class="ui brand image" src="/assets/images/landing/title3.png"></a>
+            @user.map { u =>
+                @if(u.isAdmin) {
+                    <a class="@if(request.uri startsWith  "/admin/") {active teal} item" href="/admin/users"> Administration </a>
+                }
+                <a class="@if(request.uri startsWith  "/credit/") {active teal} item" href="/credit/list"> Mes crédits </a>
+            }
+            <a class="@if(request.uri startsWith "/tools/") {active teal} item" href="/tools/mensualite"> Calculer </a>
+
+            <div class="right menu">
+            @user match {
+                case Some(u) => {
+                    <a class="@if(request.uri == "/user") {active teal} item" href="/user">
+                        @u.firstName @u.lastName
+                    </a>
+                }
+                case None => {
+                    <a href="/signin" class="item">Connecter</a>
+                    <a class="item" href="/signup">S'enregistrer</a>
+                }
+            }
+            </div>
+        </div>
+    </div>
+
+    <div class="pusher">
+        @content
+
+        <div class="ui inverted vertical footer segment">
+            <div class="ui container">
+                <div class="ui stackable inverted divided equal height stackable grid">
+                    <div class="eight wide column">
+                        <h3 class="ui inverted header">credit-portfolio.fr</h3>
+                        <div class="ui inverted link list">
+                            <a href="/about" class="item">A propos</a>
+                            <a href="mailto:admin@@credit-portfolio.fr" class="item">Contactez le responsable du site</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @request.flash.get("success").map { msg =>
+        <div class="ui basic modal">
+            <div class="ui success huge icon message">
+                <i class="large close icon"></i>
+                <i class="check circle icon"></i>
+                <div class="content">
+                    <h2>@msg</h2>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('.ui.basic.modal')
+              .modal({
+                blurring: true
+              })
+              .modal('show')
+            ;
+        </script>
+    }
+    @request.flash.get("error").map { msg =>
+        <div class="ui basic modal">
+            <div class="ui error huge icon message">
+                <i class="large close icon"></i>
+                <i class="warning circle icon"></i>
+                <div class="content">
+                    <h2>@msg</h2>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('.ui.basic.modal')
+              .modal({
+                blurring: true
+              })
+              .modal('show')
+            ;
+        </script>
+    }
+
+    <script>
+        $(function () {
+            $('.ui.dropdown')
+                .dropdown()
+            ;
+
+            // create sidebar and attach to menu open
+            $('.ui.left.sidebar.menu')
+                .sidebar('attach events', '.toc.item')
+            ;
+
+            $('.message .close')
+              .on('click', function() {
+                $(this)
+                  .closest('.modal')
+                  .modal('hide')
+                ;
+              })
+            ;
+        });
+    </script>
+</body>
+}

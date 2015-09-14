@@ -1,0 +1,5 @@
+Sitemap: http://www.credit-portfolio.fr/sitemap.xml
+
+User-agent: *
+Disallow: /credit/
+Disallow: /user

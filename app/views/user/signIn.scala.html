@@ -1,0 +1,61 @@
+@import forms.user.SignInForm
+@(form: Form[SignInForm.Data], socialProviders: com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry)(implicit request: RequestHeader, messages: Messages)
+
+@import helper.CSRF
+@import views.helper.Semantic
+@import views.helper.Semantic.input
+
+@layout.secure(Messages("signIn.title")) {
+
+    @request.flash.get("success").map { msg =>
+        <div class="ui icon success message attached">
+            <i class="check circle icon"></i>
+            <div class="content">
+                <div class="header"> @Messages(msg) </div>
+            </div>
+        </div>
+    }
+
+    @request.flash.get("error").map { msg =>
+        <div class="ui icon error message attached">
+            <i class="warning icon"></i>
+            <div class="content">
+                <div class="header"> @Messages(msg) </div>
+            </div>
+        </div>
+    }
+    <div class="ui attached segment">
+        <form class="ui login large form @if(form.hasErrors) {error}"
+            action="/authenticate/credentials" method="post">
+
+            <p>Connectez vous avec votre e-mail et mot de passe</p>
+
+            @CSRF.formField
+
+            @helper.inputText(
+                form("email"),
+                'placeholder -> "E-mail",
+                'autofocus -> "autofocus",
+                '_class -> "required",
+                '_icon -> "mail"
+            )
+
+            @helper.inputPassword(
+                form("password"),
+                'placeholder -> "Mot de passe",
+                '_class -> "required",
+                '_icon -> "privacy"
+            )
+
+            @helper.checkbox(
+                form("rememberMe"),
+                '_label -> "Se souvenir de moi à la prochaine connexion"
+            )(Semantic.checkbox, implicitly[Messages])
+
+            <button type="submit" class="ui submit button">@Messages("signIn.title")</button>
+            <a href="/reset">@Messages("signIn.forgotPassword")</a>
+            <p class="not-a-member">@Messages("signIn.signUp") <a href="/signup">@Messages("signIn.here")</a></p>
+
+        </form>
+    </div>
+}

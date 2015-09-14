@@ -1,0 +1,186 @@
+@import forms.tools.AmortissementForm
+@(form: Form[AmortissementForm.Data], user: Option[User], res: Option[Amortissement] = None)(implicit req: RequestHeader, messages: Messages)
+
+@import org.joda.time.DateTime
+@import helper.CSRF
+@import views.helper.Semantic.input
+
+@layout.main("Tableau d'amotissement", user = user) {
+
+    <div id="ammortissement-tool">
+        <div class="ui main container">
+
+            <div class="ui tabular menu">
+                <a class="item" href="/tools/mensualite">
+                    Mensualité
+                </a>
+                <a class="item" href="/tools/capital">
+                    Capital
+                </a>
+                <a class="active item">
+                    Amortissement
+                </a>
+            </div>
+
+            <div class="ui basic segment">
+                <div class="ui verticaly divided grid">
+
+                    <div class="two column equal height row">
+                        <div class="nine wide column">
+                            <form class="ui form" method="post">
+                                @CSRF.formField
+
+                                <div class="three fields">
+                                    @helper.inputText(
+                                        form("capital"),
+                                        '_label -> "Capital",
+                                        'placeholder -> "Capital",
+                                        'autofocus -> "autofocus",
+                                        '_class -> "required eight wide",
+                                        '_icon -> "euro"
+                                    )
+                                    @helper.inputText(
+                                        form("taux"),
+                                        '_label -> "Taux",
+                                        'placeholder -> "Taux",
+                                        '_class -> "required four wide"
+                                    )
+                                    @helper.inputText(
+                                        form("assurance"),
+                                        '_label -> "Assurance",
+                                        'placeholder -> "Taux",
+                                        '_class -> "four wide"
+                                    )
+                                </div>
+
+                                <div class="two fields">
+                                    @helper.inputText(
+                                        form("duree"),
+                                        '_label -> "Durée",
+                                        'placeholder -> "Durée",
+                                        '_class -> "required"
+                                    )
+                                    <div class="field">
+                                        <label for="">&nbsp;</label>
+                                        @helper.select(
+                                            form("typeDuree"),
+                                            options =
+                                                    helper.options(
+                                                        ("A", "Année"),
+                                                        ("M", "Mois")
+                                                    ),
+                                            'class -> "ui dropdown"
+                                        )
+                                    </div>
+                                </div>
+
+                                @helper.inputText(
+                                    form("depart"),
+                                    '_label -> "Départ",
+                                    'placeholder -> "dd.MM.yyyy",
+                                    '_class -> "required six wide",
+                                    '_icon -> "calendar"
+                                )
+
+                                <button id="calc-action" type="submit" class="ui submit button">
+                                    <i class="icon calculator"></i>
+                                    Calculer
+                                </button>
+                            </form>
+                        </div>
+                        <div class="seven wide center aligned column">
+                            <div class="ui basic segment">
+                                <div class="ui small statistic">
+                                    <div class="value">
+                                    @res match {
+                                        case Some(a) => {
+                                            @("%,.2f".format(a.credit.mensualite)) €
+                                        }
+                                        case None => {
+                                            -
+                                        }
+                                    }
+                                    </div>
+                                    <div class="label">Mensualité</div>
+                                </div>
+                                <div class="ui small statistic">
+                                    <div class="value">
+                                    @res match {
+                                        case Some(a) => {
+                                            @("%,.2f".format(a.cout())) €
+                                        }
+                                        case None => {
+                                            -
+                                        }
+                                    }
+                                    </div>
+                                    <div class="label">Coût</div>
+                                </div>
+                            </div>
+                            @if(res.isDefined) {
+                                <div>
+                                @if(user.isDefined) {
+                                    <a href="/credit/create?capital=@form("capital").value&taux=@form("taux").value&duree=@form("duree").value&typeDuree=@form("typeDuree").value&depart=@DateTime.now.toString("dd.MM.yyyy")&assurance=@form("assurance").value"
+                                    class="ui circular icon button">
+                                        <i class="save icon"></i>
+                                    </a>
+                                    <div class="ui special popup">
+                                        <p>Enregistrer dans mes crédits</p>
+                                    </div>
+                                }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @if(res.isDefined) {
+        <h4 class="ui horizontal header divider">
+            <i class="table icon"></i>
+            Amortissement
+        </h4>
+
+        <div class="sixteen wide column">
+            <table class="ui compact striped table">
+                <thead>
+                    <tr>
+                        <th>Num</th>
+                        <th>Mois</th>
+                        <th class="right aligned">Mensualité</th>
+                        <th class="right aligned">Intérêts</th>
+                        <th class="right aligned">Amortissement</th>
+                        <th class="right aligned">Capital</th>
+                        <th class="right aligned">Assurance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(e <- res.get.echeances) {
+                    <tr>
+                        <td>@e.num</td>
+                        <td>@e.date.toString("MM.yyyy")</td>
+                        <td class="right aligned">@("%,.2f".format(e.mensualite))</td>
+                        <td class="right aligned">@("%,.2f".format(e.interets))</td>
+                        <td class="right aligned">@("%,.2f".format(e.amortissement))</td>
+                        <td class="right aligned">@("%,.2f".format(e.capital))</td>
+                        <td class="right aligned">@("%,.2f".format(e.assurance))</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <script>
+    $(document).ready(function() {
+
+        $ ('.icon.button').popup({
+            inline: true
+        });
+
+    });
+  </script>
+}
