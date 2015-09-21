@@ -20,17 +20,19 @@
 /* Main layout */
 .main-layout>.pusher {
     display: -webkit-flex;
-    layout: flex;
+    display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
+}
+.main-layout>.pusher>div {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
 }
 .main.container {
     margin-top: 2em;
     margin-bottom: 2em;
     min-height: 480px;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
 }
 .ui.top.main.menu .header.item {
     padding: 0em;

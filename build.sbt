@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
   "com.mohiva" %% "play-silhouette" % "3.0.0",
   "org.webjars" %% "webjars-play" % "2.4.0",
   "org.webjars" % "jquery" % "1.11.3",
-  "org.webjars" % "Semantic-UI" % "2.1.3",
+  "org.webjars" % "Semantic-UI" % "2.1.4",
   "net.codingwell" %% "scala-guice" % "4.0.0",
   "net.ceedubs" %% "ficus" % "1.1.2",
   "com.adrianhurt" %% "play-bootstrap3" % "0.4.4-P24",
