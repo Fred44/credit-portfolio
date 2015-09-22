@@ -12,7 +12,7 @@ object TauxOperationForm {
 
   val form: Form[TauxOperation] = Form (
     mapping (
-      "date" -> jodaDate("MM.yyyy"),
+      "date" -> jodaDate("MM/yyyy"),
       "frais" -> bigDecimal.verifying(min(BigDecimal(0))),
       "taux" -> bigDecimal.verifying(min(BigDecimal(0)), max(BigDecimal(50)))
     ) (TauxOperation.apply) (TauxOperation.unapply)

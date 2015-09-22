@@ -40,7 +40,7 @@
                         @helper.inputText(
                             editForm("date"),
                             '_label -> "Date",
-                            'placeholder -> "MM.yyyy",
+                            'placeholder -> "mm/aaaa",
                             '_class -> "required",
                             '_icon -> "calendar",
                             'autofocus -> "autofocus"
@@ -120,8 +120,8 @@
                                 </tr>
                                 <tr>
                                     <td>Fin</td>
-                                    <td>@avant.fin.toString("MM.yyyy")</td>
-                                    <td>@apres.fin.toString("MM.yyyy")</td>
+                                    <td>@avant.fin.toString("MM/yyyy")</td>
+                                    <td>@apres.fin.toString("MM/yyyy")</td>
                                     <td>-</td>
                                 </tr>
                                 <tr>

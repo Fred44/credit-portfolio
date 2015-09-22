@@ -60,7 +60,7 @@
                     @helper.inputText(
                         creditForm("depart"),
                         '_label -> "Départ",
-                        'placeholder -> "dd.MM.yyyy",
+                        'placeholder -> "jj/mm/aaaa",
                         '_class -> "required six wide",
                         '_icon -> "calendar"
                     )
@@ -100,12 +100,11 @@
     </div>
 
     <script>
-        $('.ui.radio.checkbox')
-            .checkbox()
-        ;
-//        $('select.dropdown')
-//            .dropdown()
-//        ;
+        $(function () {
+            $('.ui.radio.checkbox')
+                .checkbox()
+            ;
+            $('#depart').datepicker($.datepicker.regional[ 'fr' ]);
+        });
     </script>
-
 }

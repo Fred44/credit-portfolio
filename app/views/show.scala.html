@@ -108,7 +108,7 @@
                             @for(e <- echeances) {
                                 <tr @if(e.date.year == DateTime.now.year && (typ == "an" || e.date.monthOfYear == DateTime.now.monthOfYear)) {class="active"}>
                                     <td>@e.num</td>
-                                    <td>@if(typ == "an") {@e.date.toString("yyyy")} else {@e.date.toString("MM.yyyy")}</td>
+                                    <td>@if(typ == "an") {@e.date.toString("yyyy")} else {@e.date.toString("MM/yyyy")}</td>
                                     <td class="right aligned">@("%,.2f".format(e.mensualite))</td>
                                     <td class="right aligned">@("%,.2f".format(e.interets))</td>
                                     <td class="right aligned">@("%,.2f".format(e.amortissement))</td>

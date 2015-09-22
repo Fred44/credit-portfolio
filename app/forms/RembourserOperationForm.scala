@@ -12,7 +12,7 @@ object RembourserOperationForm {
 
   val form: Form[RemboursementOperation] = Form (
     mapping (
-      "date" -> jodaDate("MM.yyyy"),
+      "date" -> jodaDate("MM/yyyy"),
       "frais" -> bigDecimal.verifying(min(BigDecimal(0))),
       "montant" -> bigDecimal.verifying(min(BigDecimal(0)))
     ) (RemboursementOperation.apply) (RemboursementOperation.unapply)

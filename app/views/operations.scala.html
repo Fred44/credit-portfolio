@@ -7,7 +7,7 @@
                     case MensualiteOperation (d, f, m) => {
                         <a class="right floated compact icon button" href="/credit/@id/operations/remove?date=@d.toString("MM.yyyy")&typ=MENS"><i class="trash icon"></i></a>
                         <div class="content">
-                            @d.toString("MM.yyyy")
+                            @d.toString("MM/yyyy")
                             Mensualité de
                             @("%,.2f".format(m)) €
                         </div>
@@ -16,7 +16,7 @@
                     case TauxOperation (d, f, t) => {
                         <a class="right floated compact icon button" href="/credit/@id/operations/remove?date=@d.toString("MM.yyyy")&typ=TAUX"><i class="trash icon"></i></a>
                         <div class="content">
-                            @d.toString("MM.yyyy")
+                            @d.toString("MM/yyyy")
                             Taux à
                             @("%.2f".format(t)) %
                         </div>
@@ -25,7 +25,7 @@
                     case RemboursementOperation (d, f, m) => {
                         <a class="right floated compact icon button" href="/credit/@id/operations/remove?date=@d.toString("MM.yyyy")&typ=REMB"><i class="trash icon"></i></a>
                         <div class="content">
-                            @d.toString("MM.yyyy")
+                            @d.toString("MM/yyyy")
                             Remboursement de
                             @("%,.2f".format(m)) €
                         </div>

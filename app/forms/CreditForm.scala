@@ -21,7 +21,7 @@ object CreditForm {
       "assurance" -> default(bigDecimal.verifying(min(BigDecimal(0)), max(BigDecimal(20))), BigDecimal(0)),
       "duree" -> number (min = 0),
       "typeDuree" -> nonEmptyText,
-      "depart" -> jodaDate("dd.MM.yyyy")
+      "depart" -> jodaDate("dd/MM/yyyy")
     ) (Data.apply) (Data.unapply) verifying ("La durée max est de 30 ans", fields => fields match {
       case c => validateDuree(c).isDefined
     })

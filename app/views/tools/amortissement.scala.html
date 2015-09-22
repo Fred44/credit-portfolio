@@ -77,7 +77,7 @@
                                 @helper.inputText(
                                     form("depart"),
                                     '_label -> "Départ",
-                                    'placeholder -> "dd.MM.yyyy",
+                                    'placeholder -> "jj/mm/yyyy",
                                     '_class -> "required six wide",
                                     '_icon -> "calendar"
                                 )
@@ -161,7 +161,7 @@
                 @for(e <- res.get.echeances) {
                     <tr>
                         <td>@e.num</td>
-                        <td>@e.date.toString("MM.yyyy")</td>
+                        <td>@e.date.toString("MM/yyyy")</td>
                         <td class="right aligned">@("%,.2f".format(e.mensualite))</td>
                         <td class="right aligned">@("%,.2f".format(e.interets))</td>
                         <td class="right aligned">@("%,.2f".format(e.amortissement))</td>
@@ -180,6 +180,7 @@
         $ ('.icon.button').popup({
             inline: true
         });
+        $('#depart').datepicker($.datepicker.regional[ 'fr' ]);
 
     });
   </script>
