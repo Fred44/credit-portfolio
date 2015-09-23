@@ -1,6 +1,6 @@
 @(user: models.User)(credits: Seq[Amortissement], totaux: (String => BigDecimal))(implicit request: play.api.mvc.RequestHeader)
 
-@layout.main("Mes credits", user=Some(user)) {
+@layout.main("Mes crédits", user=Some(user)) {
 
     <div class="credit-list">
         <div class="masthead segment">
