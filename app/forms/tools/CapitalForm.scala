@@ -10,7 +10,9 @@ import play.api.data.validation.Constraints._
   */
 object CapitalForm {
 
-   val form = Form(
+  import utils.FormFieldImplicits._
+
+  val form = Form(
      mapping(
        "apport" -> optional(bigDecimal.verifying(min(BigDecimal(0)))),
        "mensualite" -> bigDecimal.verifying(min(BigDecimal(0))),

@@ -11,7 +11,9 @@ import play.api.data.validation.Constraints._
   */
 object AmortissementForm {
 
-   val form = Form(
+  import utils.FormFieldImplicits._
+
+  val form = Form(
      mapping(
        "capital" -> bigDecimal.verifying(min(BigDecimal(0))),
        "taux" -> bigDecimal.verifying(min(BigDecimal(0)), max(BigDecimal(50))),

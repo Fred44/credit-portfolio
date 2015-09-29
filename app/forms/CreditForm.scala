@@ -10,6 +10,8 @@ import play.api.data.validation.Constraints._
  */
 object CreditForm {
 
+  import utils.FormFieldImplicits._
+
   val DUREE_TYPE_AN = "A"
   val DUREE_TYPE_MOIS = "M"
 

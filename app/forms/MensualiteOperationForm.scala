@@ -10,6 +10,8 @@ import play.api.data.validation.Constraints._
  */
 object MensualiteOperationForm {
 
+  import utils.FormFieldImplicits._
+
   val form: Form[MensualiteOperation] = Form (
     mapping (
       "date" -> jodaDate("MM/yyyy"),

@@ -10,6 +10,8 @@ import play.api.data.validation.Constraints._
  */
 object RembourserOperationForm {
 
+  import utils.FormFieldImplicits._
+
   val form: Form[RemboursementOperation] = Form (
     mapping (
       "date" -> jodaDate("MM/yyyy"),

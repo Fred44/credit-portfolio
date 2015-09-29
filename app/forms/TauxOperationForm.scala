@@ -10,6 +10,8 @@ import play.api.data.validation.Constraints._
  */
 object TauxOperationForm {
 
+  import utils.FormFieldImplicits._
+
   val form: Form[TauxOperation] = Form (
     mapping (
       "date" -> jodaDate("MM/yyyy"),
