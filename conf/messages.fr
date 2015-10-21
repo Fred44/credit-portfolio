@@ -62,6 +62,7 @@ mails.unknownEmail.subject=Demande de réinitialisation du mot de passe
 mails.passwordResetOk.subject=Confirmation du changement de mot de passe
 
 error.real = Ceci n''est pas un nombre
+error.real.precision = {0} décimales maxi
 error.date = Ceci n''est pas une date
 error.number = Ceci n''est pas un nombre
 error.required = Ce champs est requis
