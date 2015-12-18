@@ -20,18 +20,18 @@ case class Amortissement (credit: Credit, operations: Seq[Operation] = Nil) {
     val t = tauxAdate (date)
     val r = t / 1200
     val i = (k * r).setScale(2, RoundingMode.HALF_UP)
-    val a = if (m - i > k) k else m - i
     val ass = credit.assurance.base match {
       case "CI" =>
         credit.capital * credit.assurance.taux / 1200
       case "CRD" =>
         k * credit.assurance.taux / 1200
     }
+    val a = if (m - i - ass > k) k else m - i - ass
 
     if (k > 0)
       Echeance (
         num = n, date = date,
-        mensualite = if (m - i > k) k else m,
+        mensualite = if (m - i - ass > k) k else m,
         interets = i, amortissement = a,
         capital = k - a,
         taux = t,
